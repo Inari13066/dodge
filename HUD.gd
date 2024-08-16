@@ -19,10 +19,16 @@ func show_message(text):
 	$MessageTimer.start()
 	
 func show_game_over():
-	show_message("Game Over")
-	# Wait until the MessageTimer has counted down.
-	await $MessageTimer.timeout
+	$LeaderboardButton.show()
+	$Message.text = "Game Over \n Enter ypur Name"
+	$Message.show()
+	$PlayerName.show()
+	# Wait until Player submit a name.
+	await $PlayerName.text_submitted
+	$LeaderboardButton/LeaderboardPopup/ColorRect/ItemList.add_item($PlayerName.text + " " + $ScoreLabel.text)
 
+	$PlayerName.clear()
+	$PlayerName.hide()
 	$Message.text = "Dodge the Creeps!"
 	$Message.show()
 	# Make a one-shot timer and wait for it to finish.
@@ -35,6 +41,7 @@ func update_score(score):
 
 func _on_start_button_pressed():
 	$StartButton.hide()
+	$LeaderboardButton.hide()
 	start_game.emit()
 
 func _on_message_timer_timeout():
