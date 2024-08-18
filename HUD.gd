@@ -2,11 +2,16 @@ extends CanvasLayer
 
 # Notifies `Main` node that the button has been pressed
 signal start_game
+# Notifies `Leaderboard` node that data is updated
+signal update_leaderboard
+#Notifies "HUD" game needs to be saved
+signal save_game
+
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	update_leaderboard.emit()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -23,8 +28,10 @@ func show_game_over():
 	$Message.text = "Game Over \n Enter ypur Name"
 	$Message.show()
 	$PlayerName.show()
+	$PlayerName.grab_focus()
 	# Wait until Player submit a name.
 	await $PlayerName.text_submitted
+	save_game.emit()
 	$LeaderboardButton/LeaderboardPopup/ColorRect/ItemList.add_item($PlayerName.text + " " + $ScoreLabel.text)
 
 	$PlayerName.clear()
@@ -37,7 +44,6 @@ func show_game_over():
 
 func update_score(score):
 	$ScoreLabel.text = str(score)
-
 
 func _on_start_button_pressed():
 	$StartButton.hide()
