@@ -32,16 +32,27 @@ func _on_update_leaderboard():
 	#
 	# Get the data from the JSON object
 	leaderboarData = json.get_data()
-	await make_leaderboard()
+	make_leaderboard()
 
 func make_leaderboard():
 	print(leaderboarData)
-	$LeaderboardPopup/ColorRect/Label.text = str(leaderboarData).replace('{','').replace('}',''). replace(', ','\n')
+	leaderboarData = sort_leaderboard(leaderboarData)	
+	$LeaderboardPopup/ColorRect/Label.text = str(leaderboarData).replace('{ ','').replace('}',''). replace(', ','\n')
 
 func _on_save_game():
 	var save_file = FileAccess.open("res://leaderboard.save", FileAccess.WRITE)
-	print(get_node('../PlayerName').text, get_node("../ScoreLabel").text)
 	leaderboarData[get_node('../PlayerName').text] = int(get_node("../ScoreLabel").text)
 	save_file.store_line(JSON.stringify(leaderboarData))
-	update_leaderboard.emit()
 	make_leaderboard()
+	
+func sort_leaderboard(data) :
+	var sortable = [];
+	for player in data:
+		sortable.push_back([player, data[player]]);
+
+	sortable.sort_custom(func(a,b): return a[1] > b[1])
+	var objSorted = {}
+	for i in sortable.size():
+		var item = sortable[i]
+		objSorted[item[0]]=item[1]
+	return objSorted
