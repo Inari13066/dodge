@@ -47,7 +47,18 @@ func _process(delta):
 
 
 func _on_body_entered(body):
-	hide() # Player disappears after being hit.
-	hit.emit()
-	# Must be deferred as we can't change physics properties on a physics callback.
-	$CollisionShape2D.set_deferred("disabled", true)
+	var boost = get_tree().get_first_node_in_group("boosts")
+	if body == boost:
+		var animation = boost.get_child(0).get_animation()
+		if animation == "heart":
+			print("Da heart")
+		elif animation == "freeze":
+			print("Da freeze")
+		elif animation == "bomb":
+			print("Da bomb")
+	else: 
+		hide() # Player disappears after being hit.
+		hit.emit()
+		# Must be deferred as we can't change physics properties on a physics callback.
+		$CollisionShape2D.set_deferred("disabled", true)
+

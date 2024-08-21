@@ -25,7 +25,7 @@ func show_message(text):
 	
 func show_game_over():
 	$LeaderboardButton.show()
-	$Message.text = "Game Over \n Enter ypur Name"
+	$Message.text = "Game Over \n Enter your Name"
 	$Message.show()
 	$PlayerName.show()
 	$PlayerName.grab_focus()

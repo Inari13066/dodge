@@ -1,5 +1,6 @@
 extends Node
 @export var mob_scene: PackedScene
+@export var boost_scene: PackedScene
 var score
 
 
@@ -16,12 +17,14 @@ func _process(delta):
 func game_over():
 	$ScoreTimer.stop()
 	$MobTimer.stop()
+	$BoostTimer.stop()
 	$HUD.show_game_over()
 	$Music.stop()
 	$DeathSound.play()
 
 func new_game():
 	get_tree().call_group("mobs", "queue_free")
+	get_tree().call_group("boosts", "queue_free")
 	$Music.play()
 	score = 0
 	$HUD.update_score(score)
@@ -34,8 +37,9 @@ func _on_score_timer_timeout():
 	$HUD.update_score(score)
 
 func _on_start_timer_timeout():
-	$MobTimer.start()
+	#$MobTimer.start()
 	$ScoreTimer.start()
+	$BoostTimer.start()
 
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
@@ -60,3 +64,24 @@ func _on_mob_timer_timeout():
 
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
+
+
+func _on_boost_timer_timeout():
+	var boost = boost_scene.instantiate()
+	
+	var boost_spawn_location = $MobPath/MobSpawnLocation
+	boost_spawn_location.progress_ratio = randf()
+	
+	var direction = boost_spawn_location.rotation + PI / 2
+	
+	boost.position = boost_spawn_location.position
+	
+	direction += randf_range(-PI / 4, PI / 4)
+	boost.rotation = direction
+	
+	var velocity = Vector2(randf_range(100.0, 150.0), 0.0)
+	boost.linear_velocity = velocity.rotated(direction)
+	
+	add_child(boost)
+	
+	

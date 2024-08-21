@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://buhjueo74jc01"]
+[gd_scene load_steps=8 format=3 uid="uid://buhjueo74jc01"]
 
 [ext_resource type="Script" path="res://HUD.gd" id="1_t13i2"]
+[ext_resource type="Texture2D" uid="uid://drqu0hbvasiod" path="res://art/podium.png" id="2_5yh7h"]
 [ext_resource type="FontFile" uid="uid://bowy0c3xnbrle" path="res://fonts/Xolonium-Regular.ttf" id="2_7ppps"]
-[ext_resource type="Texture2D" uid="uid://bfke1tkn86def" path="res://art/leaderboardIcon.png" id="3_w5yvb"]
 [ext_resource type="Script" path="res://LeaderboardButton.gd" id="4_r4mio"]
+[ext_resource type="Texture2D" uid="uid://dxis30tikfws" path="res://art/heart.png" id="5_2ob7t"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_n3goh"]
 action = &"start_game"
@@ -18,16 +19,17 @@ script = ExtResource("1_t13i2")
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -64.0
-offset_bottom = 64.0
+offset_left = -80.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 80.0
 grow_horizontal = 0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 toggle_mode = true
 action_mode = 0
-icon = ExtResource("3_w5yvb")
+icon = ExtResource("2_5yh7h")
 flat = true
-expand_icon = true
 script = ExtResource("4_r4mio")
 
 [node name="LeaderboardPopup" type="CanvasLayer" parent="LeaderboardButton"]
@@ -86,8 +88,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -16.0
+offset_top = 8.0
 offset_right = 29.0
-offset_bottom = 78.0
+offset_bottom = 86.0
 grow_horizontal = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("2_7ppps")
@@ -123,12 +126,14 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -33.531
+offset_left = -75.0
 offset_top = -220.0
-offset_right = 33.5315
-offset_bottom = -189.0
+offset_right = 75.0
+offset_bottom = -173.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_7ppps")
+theme_override_font_sizes/font_size = 32
 
 [node name="StartButton" type="Button" parent="."]
 anchors_preset = 7
@@ -150,6 +155,13 @@ text = "Start"
 [node name="MessageTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="HeartIcon" type="TextureRect" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 72.0
+offset_bottom = 72.0
+texture = ExtResource("5_2ob7t")
 
 [connection signal="save_game" from="." to="LeaderboardButton" method="_on_save_game"]
 [connection signal="update_leaderboard" from="." to="LeaderboardButton" method="_on_update_leaderboard"]
