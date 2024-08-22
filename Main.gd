@@ -37,7 +37,7 @@ func _on_score_timer_timeout():
 	$HUD.update_score(score)
 
 func _on_start_timer_timeout():
-	#$MobTimer.start()
+	$MobTimer.start()
 	$ScoreTimer.start()
 	$BoostTimer.start()
 
@@ -84,4 +84,29 @@ func _on_boost_timer_timeout():
 	
 	add_child(boost)
 	
-	
+
+
+func _on_player_heart():
+	print("Da heart")
+
+
+func _on_player_freeze():
+	print("Da freeze")
+	$MobTimer.stop()
+	var mobs = get_tree().get_nodes_in_group("mobs")
+	var tmp_velocity:Array[Vector2]
+	tmp_velocity.resize(mobs.size())
+	for mob in mobs.size():
+		tmp_velocity[mob] = mobs[mob].linear_velocity
+		mobs[mob].set_sleeping(true)
+	await get_tree().create_timer(4.0).timeout
+	mobs = get_tree().get_nodes_in_group("mobs")
+	for mob in mobs.size():
+		mobs[mob].set_sleeping(false)
+		mobs[mob].linear_velocity = tmp_velocity[mob]
+	$MobTimer.start()
+
+
+func _on_player_bomb():
+	print("Da bomb")
+	get_tree().call_group("mobs", "queue_free")

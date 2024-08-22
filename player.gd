@@ -1,5 +1,8 @@
 extends Area2D
 signal hit
+signal freeze
+signal heart
+signal bomb
 
 @export var speed = 400 # How fast the player will move (pixels/sec).
 var screen_size # Size of the game window.
@@ -47,15 +50,18 @@ func _process(delta):
 
 
 func _on_body_entered(body):
-	var boost = get_tree().get_first_node_in_group("boosts")
-	if body == boost:
-		var animation = boost.get_child(0).get_animation()
+	var boosts = get_tree().get_nodes_in_group("boosts")
+	if boosts.has(body):
+		var animation = body.get_child(0).get_animation()
 		if animation == "heart":
-			print("Da heart")
+			heart.emit()
+			freeze.emit()
 		elif animation == "freeze":
-			print("Da freeze")
+			print("freeze")
+			freeze.emit()
 		elif animation == "bomb":
-			print("Da bomb")
+			bomb.emit()
+		body.queue_free()
 	else: 
 		hide() # Player disappears after being hit.
 		hit.emit()
