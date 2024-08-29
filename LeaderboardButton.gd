@@ -35,7 +35,6 @@ func _on_update_leaderboard():
 	make_leaderboard()
 
 func make_leaderboard():
-	print(leaderboarData)
 	leaderboarData = sort_leaderboard(leaderboarData)	
 	$LeaderboardPopup/ColorRect/Label.text = str(leaderboarData).replace('{ ','').replace('}',''). replace(', ','\n')
 

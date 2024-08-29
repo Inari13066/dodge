@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6lqckfo5bm42"]
+
+[ext_resource type="Script" path="res://LivesBlock.gd" id="1_73t6m"]
+[ext_resource type="Texture2D" uid="uid://csyt12bk3snvr" path="res://art/heartF.png" id="2_ojmth"]
+
+[node name="LivesBlock" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_73t6m")
+metadata/Lives = 0
+
+[node name="Live1" type="Sprite2D" parent="." groups=["lives"]]
+position = Vector2(40, 48)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_ojmth")
+
+[node name="Live2" type="Sprite2D" parent="." groups=["lives"]]
+position = Vector2(72, 48)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_ojmth")
+
+[node name="Live3" type="Sprite2D" parent="." groups=["lives"]]
+position = Vector2(104, 48)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_ojmth")

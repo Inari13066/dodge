@@ -3,6 +3,7 @@ signal hit
 signal freeze
 signal heart
 signal bomb
+signal lose_life
 
 @export var speed = 400 # How fast the player will move (pixels/sec).
 var screen_size # Size of the game window.
@@ -51,17 +52,20 @@ func _process(delta):
 
 func _on_body_entered(body):
 	var boosts = get_tree().get_nodes_in_group("boosts")
+	var lives = get_node('../LivesBlock').get_meta("Lives")
+	print(lives)
 	if boosts.has(body):
 		var animation = body.get_child(0).get_animation()
 		if animation == "heart":
 			heart.emit()
-			freeze.emit()
 		elif animation == "freeze":
-			print("freeze")
 			freeze.emit()
 		elif animation == "bomb":
 			bomb.emit()
 		body.queue_free()
+	elif lives > 0:
+		lose_life.emit()
+		body.hide()
 	else: 
 		hide() # Player disappears after being hit.
 		hit.emit()

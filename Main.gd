@@ -2,6 +2,7 @@ extends Node
 @export var mob_scene: PackedScene
 @export var boost_scene: PackedScene
 var score
+signal add_heart
 
 
 # Called when the node enters the scene tree for the first time.
@@ -87,11 +88,10 @@ func _on_boost_timer_timeout():
 
 
 func _on_player_heart():
-	print("Da heart")
+	add_heart.emit()
 
 
 func _on_player_freeze():
-	print("Da freeze")
 	$MobTimer.stop()
 	var mobs = get_tree().get_nodes_in_group("mobs")
 	var tmp_velocity:Array[Vector2]
@@ -108,5 +108,4 @@ func _on_player_freeze():
 
 
 func _on_player_bomb():
-	print("Da bomb")
 	get_tree().call_group("mobs", "queue_free")
