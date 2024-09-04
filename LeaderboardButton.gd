@@ -19,6 +19,7 @@ func _on_toggled(toggled_on):
 		leaderboardPopup.show()
 	else:
 		leaderboardPopup.hide()
+	release_focus()
 
 func _on_update_leaderboard():
 	var save_file = FileAccess.open("res://leaderboard.save", FileAccess.READ)
@@ -35,12 +36,17 @@ func _on_update_leaderboard():
 	make_leaderboard()
 
 func make_leaderboard():
-	leaderboarData = sort_leaderboard(leaderboarData)	
-	$LeaderboardPopup/ColorRect/Label.text = str(leaderboarData).replace('{ ','').replace('}',''). replace(', ','\n')
+	$LeaderboardPopup/ColorRect/ItemList.clear()
+	leaderboarData = sort_leaderboard(leaderboarData)
+	print(leaderboarData)
+	for leader in leaderboarData:
+		$LeaderboardPopup/ColorRect/ItemList.add_item(str(leader) + " : " + str(leaderboarData[leader]))
 
 func _on_save_game():
 	var save_file = FileAccess.open("res://leaderboard.save", FileAccess.WRITE)
-	leaderboarData[get_node('../PlayerName').text] = int(get_node("../ScoreLabel").text)
+	var playerName = get_node('../PlayerName').text
+	var score = int(get_node("../ScoreLabel").text)
+	leaderboarData[playerName] = max(leaderboarData.get(playerName, 0), score)
 	save_file.store_line(JSON.stringify(leaderboarData))
 	make_leaderboard()
 	

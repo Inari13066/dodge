@@ -27,20 +27,12 @@ func show_game_over():
 	$LeaderboardButton.show()
 	$Message.text = "Game Over \n Enter your Name"
 	$Message.show()
+	$SavePlayerName.show()
 	$PlayerName.show()
 	$PlayerName.grab_focus()
 	# Wait until Player submit a name.
 	await $PlayerName.text_submitted
-	save_game.emit()
-	$LeaderboardButton/LeaderboardPopup/ColorRect/ItemList.add_item($PlayerName.text + " " + $ScoreLabel.text)
-
-	$PlayerName.clear()
-	$PlayerName.hide()
-	$Message.text = "Dodge the Creeps!"
-	$Message.show()
-	# Make a one-shot timer and wait for it to finish.
-	await get_tree().create_timer(1.0).timeout
-	$StartButton.show()
+	_on_save_player_name_pressed()
 
 func update_score(score):
 	$ScoreLabel.text = str(score)
@@ -52,3 +44,16 @@ func _on_start_button_pressed():
 
 func _on_message_timer_timeout():
 	$Message.hide()
+
+
+func _on_save_player_name_pressed():
+	save_game.emit()
+
+	$PlayerName.clear()
+	$PlayerName.hide()
+	$SavePlayerName.hide()
+	$Message.text = "Dodge the Creeps!"
+	$Message.show()
+	# Make a one-shot timer and wait for it to finish.
+	await get_tree().create_timer(1.0).timeout
+	$StartButton.show()

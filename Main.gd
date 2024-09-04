@@ -35,6 +35,8 @@ func new_game():
 
 func _on_score_timer_timeout():
 	score += 1
+	if score == 20:
+		$MobTimer.wait_time = 0.5
 	$HUD.update_score(score)
 
 func _on_start_timer_timeout():

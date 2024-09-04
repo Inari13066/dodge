@@ -53,7 +53,6 @@ func _process(delta):
 func _on_body_entered(body):
 	var boosts = get_tree().get_nodes_in_group("boosts")
 	var lives = get_node('../LivesBlock').get_meta("Lives")
-	print(lives)
 	if boosts.has(body):
 		var animation = body.get_child(0).get_animation()
 		if animation == "heart":
