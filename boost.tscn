@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://bcirf8qjbeita"]
+
+[ext_resource type="Texture2D" uid="uid://hu8eye1kgpn6" path="res://art/bomb.png" id="1_5tl3c"]
+[ext_resource type="Script" path="res://boost.gd" id="1_8cri0"]
+[ext_resource type="Texture2D" uid="uid://ci2jr0ik1ijd5" path="res://art/snow.png" id="2_rmqb2"]
+[ext_resource type="Texture2D" uid="uid://csyt12bk3snvr" path="res://art/heartF.png" id="3_wj76h"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fd1h2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_5tl3c")
+}],
+"loop": true,
+"name": &"bomb",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_rmqb2")
+}],
+"loop": true,
+"name": &"freeze",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_wj76h")
+}],
+"loop": true,
+"name": &"heart",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1db4a"]
+radius = 34.0
+
+[node name="Boost" type="RigidBody2D" groups=["boosts"]]
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_8cri0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_fd1h2")
+animation = &"heart"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1db4a")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(9.53674e-07, 9.53674e-07)
+
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
